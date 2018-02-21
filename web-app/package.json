@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.2",
+    "hbs": "^4.0.1",
     "qr-image": "^3.2.0"
   }
 }
