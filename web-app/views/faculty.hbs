@@ -4,6 +4,7 @@
 	<title>Faculty</title>
 </head>
 <body>
+<<<<<<< HEAD:web-app/views/faculty.hbs
 	<form action="">
 		<select>
 			<option value="purini">Suresh Purini</option>
@@ -26,5 +27,34 @@
 	</form>
 
 	
+=======
+	<select id="faculty">
+		<option value="purini">Suresh Purini</option>
+		<option value="kannan">Kannan Srinathan</option>
+	</select>
+
+</br></br>
+
+<select id="course">
+	<option value="ds">Distributed Systems</option>
+	<option value="pois">Principles of Information Security</option>
+</select>
+
+</br></br>
+
+<input id="date" type="date">
+
+</br></br>
+<input type="button" value="Take Attendance" onclick="sendData()">
+
+<script>
+	function sendData() {
+		var faculty = document.getElementById("faculty").value;
+		var course = document.getElementById("faculty").value;
+
+	}
+</script>
+
+>>>>>>> de20a8c0a4665596258363cbc147cf3646f8ef95:web-app/views/Faculty.html
 </body>
 </html>
