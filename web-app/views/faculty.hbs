@@ -27,8 +27,9 @@
 <script>
 	function sendData() {
 		var faculty = document.getElementById("faculty").value;
-		var course = document.getElementById("faculty").value;
+		var course = document.getElementById("course").value;
 
+		window.location = "/takeAttendance/"+faculty+"/"+course;
 	}
 </script>
 </body>
