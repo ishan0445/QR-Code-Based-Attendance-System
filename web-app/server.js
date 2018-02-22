@@ -1,6 +1,8 @@
 const express = require('express');
 const hbs = require('hbs');
-var qr = require('qr-image');
+var qr = require('./QRCodeGenerator');
+var {courseqrs} = require('./models/attendance.js')
+const {ObjectID} = require('mongodb');
 
 var app = express();
 
@@ -39,6 +41,29 @@ app.get('/takeAttendance/:faculty/:subj',(req,res) => {
 		subj : req.params.subj,
 		svg_string
 	});
+});
+
+app.get('/getNextQR/:faculty/:subj',(req,res) => {
+	var QRCode = qr.QRCodeGenerator(1);
+	var row = new courseqrs({
+		_id: new ObjectID(QRCode[0].QRCode),
+		facultyId: req.params.faculty,
+		courseId: req.params.subj,
+		QRCode: QRCode[0].QRCode
+	});
+
+	row.save().then((doc) => {
+	  console.log('Successfully saved QRCode');
+	}, (e) => {
+	  console.log('Unable to save QRCode', e);
+	});
+
+	res.render('takeAttendance.hbs',{
+		faculty : req.params.faculty,
+		subj : req.params.subj,
+		svg_string : QRCode[0].QRimage
+	});
+
 });
 
 // app.get('/about', (req,res) => {

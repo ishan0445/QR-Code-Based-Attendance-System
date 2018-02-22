@@ -1,5 +1,5 @@
 var qr = require('qr-image');
-const {MongoClient, ObjectID} = require('mongodb');
+const {ObjectID} = require('mongodb');
 
 var QRCodeGenerator = (n) => {
 	var QRCodes = [];
@@ -14,4 +14,7 @@ var QRCodeGenerator = (n) => {
 	return QRCodes;
 }
 
+module.exports = {
+	QRCodeGenerator
+}
 //console.log(QRCodeGenerator(2));
