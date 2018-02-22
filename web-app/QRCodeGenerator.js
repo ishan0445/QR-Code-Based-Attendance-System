@@ -4,9 +4,11 @@ const {MongoClient, ObjectID} = require('mongodb');
 var QRCodeGenerator = (n) => {
 	var QRCodes = [];
 	for(var i=0;i<n;i++){
-		var QR = qr.imageSync((new ObjectID()).toString(),
+		var code = new ObjectID().toString();
+		var QR = qr.imageSync(code,
 			{ type: 'svg', size: 5 });
-		QRCodes.push(QR);
+		QRCodes.push({QRCode: code, 
+					   QRimage : QR});
 		//console.log(QR);
 	}
 	return QRCodes;
