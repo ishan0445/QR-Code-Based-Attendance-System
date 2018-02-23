@@ -58,7 +58,7 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 	  console.log('Unable to save QRCode', e);
 	});
 
-	res.render('takeAttendance.hbs',{
+	res.send({
 		faculty : req.params.faculty,
 		subj : req.params.subj,
 		svg_string : QRCode[0].QRimage

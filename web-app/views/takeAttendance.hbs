@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>QR Generator</title>
-</head>
-<body>
+	<head>
+		<title>QR Generator</title>
+	</head>
 
-	<h1>{{faculty}}</h1>
-	<h3>{{subj}}
-	<div align="center">
-		{{{svg_string}}}
-	</div>
-</br>
-<input type="button" value="Stop Attendance" onclick="redirect()">
+	<body>
+		<h1>{{faculty}}</h1>
+		<h3>{{subj}}
+		<div align="center" id="qrCode">
+			{{{svg_string}}}
+		</div>
+	</br>
+	<input id="finishAttendance" value="Stop Attendance">
 
-<script>
-	function redirect() {
-		window.location = "/faculty";
-	}
-</script>
 
-</body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<script>
+
+		$(document).ready(function(){
+			
+			// 3 sec timer to get qrCode
+			var tid = setInterval(getNextQR, 3000);
+
+			function getNextQR() {
+				$.get("/getNextQR/"+{{faculty}}+"/"+{{subj}}, function(data, status){
+					
+					$("#qrCode").empty();
+					$("#qrCode").html(data.svg_string);
+				});
+
+			}
+			
+			$("#finishAttendance").click(){
+				clearInterval(tid);
+				window.location.replace("./faculty.hbs");
+			}
+
+		});
+	</script>
+
+	</body>
 </html>
