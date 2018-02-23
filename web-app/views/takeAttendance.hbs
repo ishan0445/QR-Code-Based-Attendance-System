@@ -19,12 +19,12 @@
 	<script>
 
 		$(document).ready(function(){
-			
+			getNextQR();
 			// 3 sec timer to get qrCode
 			var tid = setInterval(getNextQR, 3000);
 
 			function getNextQR() {
-				$.get("/getNextQR/"+{{faculty}}+"/"+{{subj}}, function(data, status){
+				$.get("/getNextQR/\{\{faculty\}\}/\{\{subj\}\}", function(data, status){
 					
 					$("#qrCode").empty();
 					$("#qrCode").html(data.svg_string);
@@ -32,10 +32,10 @@
 
 			}
 			
-			$("#finishAttendance").click(){
+			$("#finishAttendance").click(function() {
 				clearInterval(tid);
-				window.location.replace("./faculty.hbs");
-			}
+				window.location.replace("/");
+			});
 
 		});
 	</script>

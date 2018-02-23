@@ -34,12 +34,11 @@ app.get('/',(req,res) => {
 });
 
 app.get('/takeAttendance/:faculty/:subj',(req,res) => {
-	var svg_string = qr.imageSync('I love QR!', { type: 'svg',size: 30});
+	// var svg_string = qr.imageSync('I love QR!', { type: 'svg',size: 30});
 
 	res.render('takeAttendance.hbs',{
 		faculty : req.params.faculty,
-		subj : req.params.subj,
-		svg_string
+		subj : req.params.subj
 	});
 });
 
