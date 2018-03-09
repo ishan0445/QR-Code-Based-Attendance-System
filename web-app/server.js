@@ -1,7 +1,7 @@
 const express = require('express');
 const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
-var {courseqrs} = require('./models/attendance.js');
+var {courseqrs, attendancerecord} = require('./models/attendance.js');
 var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
 
@@ -55,10 +55,6 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 		courseId: req.params.subj,
 		QRCode: QRCode[0].QRCode
 	});
-
-
-	console.log(req.params.faculty)
-
 	row.save().then((doc) => {
 	  console.log('Successfully saved QRCode');
 	}, (e) => {
@@ -79,35 +75,47 @@ app.post('/submitQRResponse',(req,res)=>{
 	var courseId;
 	var courseArray;
 
-
-	courseqrs.findOne({QRCode: QRCode}).then((docs) => {
-		console.log(docs);
-		if(docs){
-			console.log(docs);
-    		courseId = docs.courseId;
-
-			studentcourses.findOne({rollNo: rollNo}).then((docs) => {
-		    	courseArray = docs.courses;
-		    	console.log(courseArray)
-
-				// Mark attendance
-			  	res.send({status : 'okay'});
-		  	},(err) => {
-		  	   console.log('Either RollNo doesn\'t exist or student not registered in the course', err);
-		  	   res.send({status : 'RollNo doesn\'t exist or student not registered in the course!!'});
-		  	});
+	courseqrs.findOne({QRCode: QRCode}).then((course) => {
+		if(!course){
+			console.log('QRCode not matched to any course');
+			return res.send({status : 'Invalid QRCode!!'});
 		}
-		else{
-			console.log('QRCode not matched to any course', err);
-  	   		res.send({status : 'Invalid QRCode!!'});
-    	}
+    	courseId = course.courseId;
+		studentcourses.findOne({rollNo: rollNo}).then((student) => {
+			if(!student){
+				console.log('RollNo doesn\'t exist');
+		  		return res.send({status : 'RollNo doesn\'t exist'});
+			}
+	    	courseArray = student.courses;
+	    	if(courseArray.indexOf(courseId) > -1) {//if student is registered in the course
+	    		// Mark attendance	
+	    		var row = new attendancerecord({
+	    			courseId: courseId,
+	    			rollNo: rollNo
+	    		});
+
+	    		row.save().then((doc) => {
+					console.log('Successfully saved Attendance');
+					return res.send({status : 'okay'});
+				}, (e) => {
+					console.log('Unable to save attendance', e);
+					return res.send({status : e});
+				});
+
+	    	}
+			else{
+				console.log('Student not registered in the course');
+		  		return res.send({status : 'Student not registered in the course!!'});
+			}
+		  	
+		},(err) => {
+		  	   console.log(err);
+		  	   return res.send({status : err});
+		});
   	},(err) => {
   	   console.log(err);
-  	   res.send({status : err});
+  	   return res.send({status : err});
   	});
-
-
-
 });
 
 // app.get('/about', (req,res) => {
