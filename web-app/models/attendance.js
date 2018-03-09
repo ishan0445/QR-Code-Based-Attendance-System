@@ -33,7 +33,27 @@ var courseqrs = mongoose.model('courseqrs',{
 	}
 });
 
-module.exports = {courseqrs}
+var attendancerecord = mongoose.model('attendancerecord',{
+	courseId: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	},
+	rollNo: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	markedOn: {
+		type: Date,
+		required: true,
+		default: Date.now
+	}
+});
+
+module.exports = {courseqrs, attendancerecord}
 // var otherTodo = new courseqrs({
 //   facultyId: 'F123',
 //   courseId: '123',
