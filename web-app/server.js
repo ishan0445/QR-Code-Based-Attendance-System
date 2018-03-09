@@ -81,6 +81,16 @@ app.post('/submitQRResponse',(req,res)=>{
 			return res.send({status : 'Invalid QRCode!!'});
 		}
     	courseId = course.courseId;
+    	//Check the QR code isnt stale
+
+    	var renderedOn = course.renderedOn.getTime();
+    	var currTime = Date.now();
+
+    	if(currTime - renderedOn > 4){
+    		console.log('QR code has expired');
+    		return res.send({status : 'QR code has expired'});
+    	}
+
 		studentcourses.findOne({rollNo: rollNo}).then((student) => {
 			if(!student){
 				console.log('RollNo doesn\'t exist');
