@@ -55,6 +55,7 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 		courseId: req.params.subj,
 		QRCode: QRCode[0].QRCode
 	});
+	console.log(QRCode[0].QRCode);
 	row.save().then((doc) => {
 	  console.log('Successfully saved QRCode');
 	}, (e) => {
@@ -86,7 +87,7 @@ app.post('/submitQRResponse',(req,res)=>{
     	var renderedOn = course.renderedOn.getTime();
     	var currTime = Date.now();
 
-    	if(currTime - renderedOn > 4){
+    	if(currTime - renderedOn > 5000){
     		console.log('QR code has expired');
     		return res.send({status : 'QR code has expired'});
     	}
