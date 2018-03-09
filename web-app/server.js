@@ -65,6 +65,29 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 
 });
 
+app.post('/submitQRResponse',(req,res)=>{
+	var rollNo = req.rollNo;
+	var QRCode = req.QRCode;
+	var courseId;
+	var courseArray;
+	db.collection('courseqrs').findOne({QRCode: QRCode}).then((docs) => {
+    	courseId = docs.courseId;
+  	},(err) => {
+  	   console.log('QRCode not matched to any course', err);
+  	   res.send({status : 'Invalid QRCode!!'});
+  	});
+	
+	db.collection('studentcourses').findOne({rollNo: rollNo}).then((docs) => {
+    	courseArray = docs.courses;
+    	console.log(courseArray)
+  	},(err) => {
+  	   console.log('Either RollNo doesn\'t exist or student not registered in the course', err);
+  	   res.send({status : 'RollNo doesn\'t exist or student not registered in the course!!'});
+  	});
+	// Mark attendance
+  	res.send({status : 'okay'});
+});
+
 // app.get('/about', (req,res) => {
 // 	// res.send({
 // 	// 	name: 'Ishan',
