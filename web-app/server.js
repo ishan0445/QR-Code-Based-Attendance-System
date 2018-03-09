@@ -78,11 +78,24 @@ app.post('/submitQRResponse',(req,res)=>{
 	var QRCode = req.body.QRCode;
 	var courseId;
 	var courseArray;
+
+
 	courseqrs.findOne({QRCode: QRCode}).then((docs) => {
 		console.log(docs);
 		if(docs){
 			console.log(docs);
     		courseId = docs.courseId;
+
+			studentcourses.findOne({rollNo: rollNo}).then((docs) => {
+		    	courseArray = docs.courses;
+		    	console.log(courseArray)
+
+				// Mark attendance
+			  	res.send({status : 'okay'});
+		  	},(err) => {
+		  	   console.log('Either RollNo doesn\'t exist or student not registered in the course', err);
+		  	   res.send({status : 'RollNo doesn\'t exist or student not registered in the course!!'});
+		  	});
 		}
 		else{
 			console.log('QRCode not matched to any course', err);
@@ -92,16 +105,9 @@ app.post('/submitQRResponse',(req,res)=>{
   	   console.log(err);
   	   res.send({status : err});
   	});
-	
-	studentcourses.findOne({rollNo: rollNo}).then((docs) => {
-    	courseArray = docs.courses;
-    	console.log(courseArray)
-  	},(err) => {
-  	   console.log('Either RollNo doesn\'t exist or student not registered in the course', err);
-  	   res.send({status : 'RollNo doesn\'t exist or student not registered in the course!!'});
-  	});
-	// Mark attendance
-  	res.send({status : 'okay'});
+
+
+
 });
 
 // app.get('/about', (req,res) => {
