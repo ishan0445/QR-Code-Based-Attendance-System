@@ -1,10 +1,15 @@
 const express = require('express');
 const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
-var {courseqrs} = require('./models/attendance.js')
+var {courseqrs} = require('./models/attendance.js');
+var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
 
 var app = express();
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 const port = process.env.PORT || '3000';
 
@@ -51,6 +56,9 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 		QRCode: QRCode[0].QRCode
 	});
 
+
+	console.log(req.params.faculty)
+
 	row.save().then((doc) => {
 	  console.log('Successfully saved QRCode');
 	}, (e) => {
@@ -66,18 +74,26 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 });
 
 app.post('/submitQRResponse',(req,res)=>{
-	var rollNo = req.rollNo;
-	var QRCode = req.QRCode;
+	var rollNo = req.body.rollNo;
+	var QRCode = req.body.QRCode;
 	var courseId;
 	var courseArray;
-	db.collection('courseqrs').findOne({QRCode: QRCode}).then((docs) => {
-    	courseId = docs.courseId;
+	courseqrs.findOne({QRCode: QRCode}).then((docs) => {
+		console.log(docs);
+		if(docs){
+			console.log(docs);
+    		courseId = docs.courseId;
+		}
+		else{
+			console.log('QRCode not matched to any course', err);
+  	   		res.send({status : 'Invalid QRCode!!'});
+    	}
   	},(err) => {
-  	   console.log('QRCode not matched to any course', err);
-  	   res.send({status : 'Invalid QRCode!!'});
+  	   console.log(err);
+  	   res.send({status : err});
   	});
 	
-	db.collection('studentcourses').findOne({rollNo: rollNo}).then((docs) => {
+	studentcourses.findOne({rollNo: rollNo}).then((docs) => {
     	courseArray = docs.courses;
     	console.log(courseArray)
   	},(err) => {
