@@ -25,9 +25,8 @@ var learnNewFaces = (dirPath,rollNo,pathToExistingModel) => {
 	const allFiles = fs.readdirSync(dirPath);
 	allFiles.forEach((picName) => {
 		if(regex.test(picName)){
-			const picPath = path.join(dirPath, picName);
-			var image = []
-			image.push(fr.loadImage(picPath));
+			var image = [];
+			image.push(fr.loadImage(path.join(dirPath, picName)));
 			recognizer.addFaces(image, rollNo);	
 		}
 	});
