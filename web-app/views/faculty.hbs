@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Faculty</title>
-</head>
-<body>
+	<head>
+		<title>Faculty</title>
+	</head>
+	<body>
 
-	<select id="faculty">
-		<option value="purini">Suresh Purini</option>
-		<option value="kannan">Kannan Srinathan</option>
-	</select>
+		<select id="faculty">
+			<option value="purini">Suresh Purini</option>
+			<option value="kannan">Kannan Srinathan</option>
+		</select>
 
-</br></br>
+		</br></br>
 
-<select id="course">
-	<option value="ds">Distributed Systems</option>
-	<option value="pois">Principles of Information Security</option>
-</select>
+		<select id="course">
+			<option value="ds">Distributed Systems</option>
+			<option value="pois">Principles of Information Security</option>
+		</select>
 
-</br></br>
+		</br></br>
 
-<input id="date" type="date">
+		<input id="date" type="date">
 
-</br></br>
-<input type="button" value="Take Attendance" onclick="sendData()">
+		</br></br>
+		<input type="button" value="Take Attendance" onclick="sendData()">
 
-<script>
-	function sendData() {
-		var faculty = document.getElementById("faculty").value;
-		var course = document.getElementById("course").value;
-
-		window.location = "/takeAttendance/"+faculty+"/"+course;
-	}
-</script>
-</body>
+		<script>
+			function sendData() {
+				var faculty = document.getElementById("faculty").value;
+				var course = document.getElementById("course").value;
+				
+				window.location = "/takeAttendance/"+faculty+"/"+course;
+			}
+		</script>
+	</body>
 </html>

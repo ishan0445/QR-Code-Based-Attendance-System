@@ -1,10 +1,15 @@
 const express = require('express');
 const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
-var {courseqrs} = require('./models/attendance.js')
+var {courseqrs, attendancerecord} = require('./models/attendance.js');
+var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
 
 var app = express();
+
+var bodyParser = require('body-parser');
+app.use(bodyParser.json()); // support json encoded bodies
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 const port = process.env.PORT || '3000';
 
@@ -50,7 +55,7 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 		courseId: req.params.subj,
 		QRCode: QRCode[0].QRCode
 	});
-
+	console.log(QRCode[0].QRCode);
 	row.save().then((doc) => {
 	  console.log('Successfully saved QRCode');
 	}, (e) => {
@@ -66,26 +71,62 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 });
 
 app.post('/submitQRResponse',(req,res)=>{
-	var rollNo = req.rollNo;
-	var QRCode = req.QRCode;
+	var rollNo = req.body.rollNo;
+	var QRCode = req.body.QRCode;
 	var courseId;
 	var courseArray;
-	db.collection('courseqrs').findOne({QRCode: QRCode}).then((docs) => {
-    	courseId = docs.courseId;
+
+	courseqrs.findOne({QRCode: QRCode}).then((course) => {
+		if(!course){
+			console.log('QRCode not matched to any course');
+			return res.send({status : 'Invalid QRCode!!'});
+		}
+    	courseId = course.courseId;
+    	//Check the QR code isnt stale
+
+    	var renderedOn = course.renderedOn.getTime();
+    	var currTime = Date.now();
+
+    	if(currTime - renderedOn > 5000){
+    		console.log('QR code has expired');
+    		return res.send({status : 'QR code has expired'});
+    	}
+
+		studentcourses.findOne({rollNo: rollNo}).then((student) => {
+			if(!student){
+				console.log('RollNo doesn\'t exist');
+		  		return res.send({status : 'RollNo doesn\'t exist'});
+			}
+	    	courseArray = student.courses;
+	    	if(courseArray.indexOf(courseId) > -1) {//if student is registered in the course
+	    		// Mark attendance	
+	    		var row = new attendancerecord({
+	    			courseId: courseId,
+	    			rollNo: rollNo
+	    		});
+
+	    		row.save().then((doc) => {
+					console.log('Successfully saved Attendance');
+					return res.send({status : 'okay'});
+				}, (e) => {
+					console.log('Unable to save attendance', e);
+					return res.send({status : e});
+				});
+
+	    	}
+			else{
+				console.log('Student not registered in the course');
+		  		return res.send({status : 'Student not registered in the course!!'});
+			}
+		  	
+		},(err) => {
+		  	   console.log(err);
+		  	   return res.send({status : err});
+		});
   	},(err) => {
-  	   console.log('QRCode not matched to any course', err);
-  	   res.send({status : 'Invalid QRCode!!'});
+  	   console.log(err);
+  	   return res.send({status : err});
   	});
-	
-	db.collection('studentcourses').findOne({rollNo: rollNo}).then((docs) => {
-    	courseArray = docs.courses;
-    	console.log(courseArray)
-  	},(err) => {
-  	   console.log('Either RollNo doesn\'t exist or student not registered in the course', err);
-  	   res.send({status : 'RollNo doesn\'t exist or student not registered in the course!!'});
-  	});
-	// Mark attendance
-  	res.send({status : 'okay'});
 });
 
 // app.get('/about', (req,res) => {

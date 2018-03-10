@@ -24,12 +24,11 @@
 			var tid = setInterval(getNextQR, 3000);
 
 			function getNextQR() {
-				$.get("/getNextQR/\{\{faculty\}\}/\{\{subj\}\}", function(data, status){
+				$.get("/getNextQR/{{faculty}}/{{subj}}", function(data, status){
 					
 					$("#qrCode").empty();
 					$("#qrCode").html(data.svg_string);
 				});
-
 			}
 			
 			$("#finishAttendance").click(function() {
