@@ -4,10 +4,18 @@ var qr = require('./QRCodeGenerator');
 var {courseqrs, attendancerecord} = require('./models/attendance.js');
 var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
-
+const fs = require('fs');
+const fr = require('face-recognition');
+const pathToExistingModel = './NNModel.json'
 var app = express();
-
 var bodyParser = require('body-parser');
+
+const recognizer = fr.FaceRecognizer();
+if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
+	const modelState = require(pathToExistingModel);
+	recognizer.load(modelState);
+}
+
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 

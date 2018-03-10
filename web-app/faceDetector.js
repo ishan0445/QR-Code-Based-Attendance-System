@@ -35,9 +35,18 @@ var learnNewFaces = (dirPath,rollNo,pathToExistingModel) => {
 	fs.writeFileSync(pathToExistingModel, JSON.stringify(modelState));
 }
 
+
+var recognizeFaces = (recognizer,faceImgPath) => {
+	faceImg = fr.loadImage(faceImgPath);
+	const bestPrediction = recognizer.predictBest(faceImg);
+	console.log(bestPrediction.className);
+}
+
+
 module.exports = {
 	faceDetectorAndClipper, 
-	learnNewFaces
+	learnNewFaces,
+	recognizeFaces
 }
 
 
