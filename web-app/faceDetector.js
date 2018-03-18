@@ -2,6 +2,7 @@ const path = require('path');
 const fs = require('fs');
 const fr = require('face-recognition');
 var Regex = require('regex');
+var Sync = require('sync');
 
 var faceDetectorAndClipper = (dirPath,imgSize) => {
 	const detector = fr.FaceDetector();
@@ -14,13 +15,8 @@ var faceDetectorAndClipper = (dirPath,imgSize) => {
 	});
 }
 
-var learnNewFaces = (dirPath,rollNo,pathToExistingModel) => {
-	const recognizer = fr.FaceRecognizer();
-	if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
-		const modelState = require(pathToExistingModel);
-		recognizer.load(modelState);
-	}
-
+function learnNewFaces(dirPath,rollNo,recognizer){
+	console.log(dirPath);
 	var regex = new Regex(/detected(0|1|2|3|4|5|6|7|8|9|_)*.png/);
 	const allFiles = fs.readdirSync(dirPath);
 	allFiles.forEach((picName) => {
@@ -30,15 +26,25 @@ var learnNewFaces = (dirPath,rollNo,pathToExistingModel) => {
 			recognizer.addFaces(image, rollNo);	
 		}
 	});
-
-	const modelState = recognizer.serialize();
-	fs.writeFileSync(pathToExistingModel, JSON.stringify(modelState));
+	console.log(dirPath, ' completed');	
 }
 
 var learning = (dirPath,pathToExistingModel) => {
-	const allRolls = fs.readdirSync(dirPath);
-	allRolls.forEach((rollNo) => 
-		learnNewFaces(path.join(dirPath, rollNo), rollNo, pathToExistingModel));
+		const allRolls = fs.readdirSync(dirPath);
+		const recognizer = fr.FaceRecognizer();
+		if(fs.existsSync(pathToExistingModel)){ 
+			//load the model if it exists
+			const modelState = require(pathToExistingModel);
+			recognizer.load(modelState);
+		}
+	
+		allRolls.forEach((rollNo) => 
+			learnNewFaces(path.join(dirPath, rollNo), 
+				rollNo, recognizer)
+		);		
+
+		const modelState = recognizer.serialize();
+		fs.writeFileSync(pathToExistingModel, JSON.stringify(modelState));
 }
 
 var recognizeFaces = (recognizer,faceImgPath) => {
