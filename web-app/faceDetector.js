@@ -4,12 +4,12 @@ const fr = require('face-recognition');
 var Regex = require('regex');
 var Sync = require('sync');
 
-var faceDetectorAndClipper = (dirPath,imgSize) => {
+var faceDetectorAndClipper = (dirPath,resolution) => {
 	const detector = fr.FaceDetector();
 	const allFiles = fs.readdirSync(dirPath);
 	allFiles.forEach((picName,i) => {
 		const faceImages = detector.detectFaces(
-			fr.loadImage(path.join(dirPath, picName)), imgSize);
+			fr.loadImage(path.join(dirPath, picName)), resolution);
 		faceImages.forEach((img,j) => fr.saveImage(
 			path.join(dirPath, `detected_${i}_${j}.png`), img));
 	});
@@ -17,6 +17,7 @@ var faceDetectorAndClipper = (dirPath,imgSize) => {
 
 function learnNewFaces(dirPath,rollNo,recognizer){
 	console.log(dirPath);
+	//following regex library is shitty, so is the regex :(
 	var regex = new Regex(/detected(0|1|2|3|4|5|6|7|8|9|_)*.png/);
 	const allFiles = fs.readdirSync(dirPath);
 	allFiles.forEach((picName) => {
@@ -47,10 +48,16 @@ var learning = (dirPath,pathToExistingModel) => {
 		fs.writeFileSync(pathToExistingModel, JSON.stringify(modelState));
 }
 
-var recognizeFaces = (recognizer,faceImgPath) => {
+var recognizeFaces = (recognizer,faceImgPath,resolution) => {
 	faceImg = fr.loadImage(faceImgPath);
-	const bestPrediction = recognizer.predictBest(faceImg);
-	console.log(bestPrediction.className);
+	const detector = fr.FaceDetector();
+	const faceImages = detector.detectFaces(faceImg, resolution);
+	if(faceImages.length == 0) 
+		return 'null';
+	const bestPrediction = recognizer.predictBest(faceImages[0]);
+	if(bestPrediction.distance > 0.6) //some metric of accuracy
+		return 'null';
+	return bestPrediction.className;
 }
 
 module.exports = {
