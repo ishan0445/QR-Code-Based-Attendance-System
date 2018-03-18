@@ -1,4 +1,5 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
 const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
 var {courseqrs, attendancerecord} = require('./models/attendance.js');
@@ -6,9 +7,11 @@ var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
 const fs = require('fs');
 const fr = require('face-recognition');
+const fd = require('./faceDetector');
 const pathToExistingModel = './NNModel.json'
 var app = express();
 var bodyParser = require('body-parser');
+app.use(fileUpload());
 
 const recognizer = fr.FaceRecognizer();
 if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
@@ -20,27 +23,10 @@ app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 const port = process.env.PORT || '3000';
+const imgResolution = 150;
 
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine','hbs');
-
-// app.use((req, res, next) => {
-// 	var now = new Date().toString();
-// 	var log = `${now}: ${req.method} ${req.url}`;
-// 	console.log(log);
-// 	fs.appendFile('server.log',log+'\n', (err) =>{
-// 		if(err)
-// 			console.log('Error writing to the logs.');
-// 	});
-// 	next();
-// });
-
-// Un-comment to start maintenance mode
-// app.use((req, res, next) => {
-// 	res.render('maintenance.hbs');
-// });
-
-// app.use(express.static(__dirname+'/public'));
 
 app.get('/',(req,res) => {
 	res.render('faculty.hbs');
@@ -137,22 +123,27 @@ app.post('/submitQRResponse',(req,res)=>{
   	});
 });
 
-// app.get('/about', (req,res) => {
-// 	// res.send({
-// 	// 	name: 'Ishan',
-// 	// 	contact: '+91-9703002733'
-// 	// });
+app.post('/recognizeFace', function(req, res) {
+	var rollNo = req.body.rollNo;
+	if (!req.files)
+	return res.status(400).send('No files were uploaded.');
+	let faceImg = req.files.faceImg;
+	const filePath = `./runTimeAppData/imagesForRecog/${rollNo}.jpg`;
+	// Use the mv() method to place the file somewhere on your server
+	faceImg.mv(filePath, function(err) {
+		if (err)
+			return res.status(500).send(err);
+		if(fd.recognizeFaces(recognizer,filePath,imgResolution) == rollNo){
+			fs.unlinkSync(filePath);
+			return res.send({status:'Face matched'});
+		}
+		else{
+			fs.unlinkSync(filePath);
+			return res.send({status:'Face Recognition Failed'});
+		}
+	});
 
-// 	res.render('about.hbs',{
-// 		pageName: 'About Page',
-// 	});
-// });
-
-// app.get('/bad', (req,res) => {
-// 	res.send({
-// 		errorMsg: 'Some Error'
-// 	});
-// });
+});
 
 app.listen(port,() => {
 	console.log(`Server is up and running on port ${port}`);
