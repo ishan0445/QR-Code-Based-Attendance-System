@@ -2,7 +2,6 @@ const path = require('path');
 const fs = require('fs');
 const fr = require('face-recognition');
 var Regex = require('regex');
-var Sync = require('sync');
 
 var faceDetectorAndClipper = (dirPath,resolution) => {
 	const detector = fr.FaceDetector();
