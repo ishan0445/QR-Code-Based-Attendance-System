@@ -11,6 +11,8 @@ const fd = require('./faceDetector');
 const pathToExistingModel = './NNModel.json'
 var app = express();
 var bodyParser = require('body-parser');
+var h105Latitude = 17.4454934;
+var h105Longitude = 78.3494515;
 app.use(fileUpload());
 
 const recognizer = fr.FaceRecognizer();
@@ -144,6 +146,17 @@ app.post('/recognizeFace', function(req, res) {
 	});
 
 });
+
+app.post('/validatePhoneLocation', function(req, res) {
+	phnLatitude = req.body.latitude;
+	phnLongitude = req.body.longitude;
+	var dist = geolib.getDistance({latitude: h105Latitude, longitude: h105Longitude},
+    { latitude: phnLatitude, longitude: phnLongitude} )
+   	console.log(dist);
+    //17.447033, 78.348677
+    res.send({Distance:dist});
+});
+
 
 app.listen(port,() => {
 	console.log(`Server is up and running on port ${port}`);
