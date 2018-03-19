@@ -8,11 +8,11 @@ const {ObjectID} = require('mongodb');
 const fs = require('fs');
 const fr = require('face-recognition');
 const fd = require('./faceDetector');
+const geolib = require('geolib');
 const pathToExistingModel = './NNModel.json'
 var app = express();
 var bodyParser = require('body-parser');
-var h105Latitude = 17.4454934;
-var h105Longitude = 78.3494515;
+const H105Coordinates = {latitude: 17.4454934, longitude: 78.3494515};
 app.use(fileUpload());
 
 const recognizer = fr.FaceRecognizer();
@@ -148,13 +148,11 @@ app.post('/recognizeFace', function(req, res) {
 });
 
 app.post('/validatePhoneLocation', function(req, res) {
-	phnLatitude = req.body.latitude;
-	phnLongitude = req.body.longitude;
-	var dist = geolib.getDistance({latitude: h105Latitude, longitude: h105Longitude},
-    { latitude: phnLatitude, longitude: phnLongitude} )
-   	console.log(dist);
-    //17.447033, 78.348677
-    res.send({Distance:dist});
+	phnCoordinates = req.body.coordinates;
+	if(geolib.getDistance(H105Coordinates, phnCoordinates) > 30)
+		return res.send({status: 'Device not detected at Himalaya'});
+	else
+		return res.send({status: 'Location verified'});
 });
 
 
