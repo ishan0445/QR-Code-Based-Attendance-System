@@ -5,6 +5,7 @@ var qr = require('./QRCodeGenerator');
 var regisManager = require('./registration');
 var {courseqrs, attendancerecord} = require('./models/attendance.js');
 var {studentcourses} = require('./models/student.js');
+var {facultycourses} = require('./models/faculty.js');
 const {ObjectID} = require('mongodb');
 const fs = require('fs');
 const fr = require('face-recognition');
