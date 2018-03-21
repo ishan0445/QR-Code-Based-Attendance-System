@@ -16,14 +16,14 @@ var studentcourses = mongoose.model('studentcourses',{
 	}]
 });
 
-var phnData = mongoose.model('phnData',{
+var studentregistration = mongoose.model('studentregistration',{
 	name: {
 		type: String,
 		required: true,
 		minlength:1,
 		trim: true
 	}, 
-	rollNum: {
+	rollNo: {
 		type: String,
 		required: true,
 		minlength:1,
@@ -36,15 +36,29 @@ var phnData = mongoose.model('phnData',{
 		trim: true
 	}, 
 	phnNumber:{
-		type: Number,
+		type: String,
 		required: true,
 		minlength:1,
 		trim: true
 	}
 });
 
+var attendanceregistration = mongoose.model('attendanceregistration',{
+	rollNo: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	},
+	secretRegistrationKey: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	}
+});
 
-module.exports = {studentcourses, phnData}
+module.exports = {studentcourses, studentregistration, attendanceregistration}
 // var otherTodo = new courseqrs({
 //   facultyId: 'F123',
 //   courseId: '123',

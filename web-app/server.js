@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
+var regisManager = require('./registration');
 var {courseqrs, attendancerecord} = require('./models/attendance.js');
 var {studentcourses} = require('./models/student.js');
 const {ObjectID} = require('mongodb');
@@ -147,7 +148,7 @@ app.post('/recognizeFace', function(req, res) {
 
 });
 
-app.post('/validatePhoneLocation', function(req, res) {
+app.post('/validatePhoneLocation', function(req, res){
 	phnCoordinates = req.body.coordinates;
 	if(geolib.getDistance(H105Coordinates, phnCoordinates) > 30)
 		return res.send({status: 'Device not detected at Himalaya'});
@@ -155,6 +156,17 @@ app.post('/validatePhoneLocation', function(req, res) {
 		return res.send({status: 'Location verified'});
 });
 
+app.post('/register', function(req, res){
+	var args = {name: req.body.name, rollNo: req.body.rollNo, 
+				imei: req.body.imei, phnNumber: req.body.phnNumber, 
+				secretRegistrationKey: req.body.secretRegistrationKey};
+	regisManager.register(args).then((status) => {
+		return res.send(status);
+	}, (e) => {
+		console.log(e);
+		return res.send(e);
+	});
+});
 
 app.listen(port,() => {
 	console.log(`Server is up and running on port ${port}`);
