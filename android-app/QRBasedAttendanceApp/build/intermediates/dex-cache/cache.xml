@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/8186e326066e4b244ba14533036648561ffe635a/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_c107ae88224679bd88fb981010962c5a9e934482/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2ee80b94143c4d3c574ff64f84fbff60b20c42b7">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d691293d34bf8d44dac3725175abb3b00d1aa3b4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/e7bb88641ac3ecee7dfec10d90f4212dae2be919/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_33a2720ee29965687f3be457e95a1b08c6a0dada/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/Library/Android/sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/constraint-layout-solver-1.0.2_203a128e0241b16e358f4673c1551ff6f7b76785/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/c7f5f63b8323a05e3eaca5e95ffbf446850aed04/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9e07a9d804a3cc647f73f98691e21657780b807d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/cce4a9f4e3cc1cdf4bc6d61f2716c99afdfa75ce/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_158089c0021e0151cb24d2ee4019478ab9f510f9/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_f8d7b4e1e9def95c9eb33fa3738d1397bc691f8b/classes.dex" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/ishan/.android/build-cache/3330575cdf43b697d1ea98c2c7708382b78ab6e0/output/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9bdfc3e83c6bc1f8bc5807cdaf7e94ac884a2a0d">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/pre-dexed/debug/classes_d66c5f5ed976668255b4e5e96ad36cd0694a4c3b.jar" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/9628026587643e10eb06dfa2174e223ff6dfcd4b/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8b8f41601e17dde3e6ea5b5fb0671119f2195049/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/3330575cdf43b697d1ea98c2c7708382b78ab6e0/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9bdfc3e83c6bc1f8bc5807cdaf7e94ac884a2a0d">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d66c5f5ed976668255b4e5e96ad36cd0694a4c3b/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/00d5d9f7c531ae09c0ed72d73d230e2c7eeee7a4/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_34a12bb3359aad632e91a1847287adf804d5fed0/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/8d87e432e08cb0eaeacfdfd61ee0645458d007dc/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9c9905b251d46ba5b4bea291ff4549308030e8d3/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_6a5fa5afdeab31de5f218dcdf3d747dd5ae373bc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/26.0.0-alpha1/support-annotations-26.0.0-alpha1.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-26.0.0-alpha1_631c74ca9c3457c14e2cd61339b38650e465bd6c/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/7c0c5ff1b03c692f7af9924a0dc273afe7bff63c/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_106ebc13e5aaf072c999306d2a20265ba843f6d4/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ishan/.android/build-cache/d09ff09d4744f414ec10b14353be995ea9c18428/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_14e5bdcbcdeefbdffc41281bb93c930e5d211291/classes.dex" />
+    </item>
+
+</items>

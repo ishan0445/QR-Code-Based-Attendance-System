@@ -1,0 +1,4 @@
+#Fri Mar 09 15:51:47 IST 2018
+base.0=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5
+renamed.0=classes.dex
+file.0=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_5/classes.dex

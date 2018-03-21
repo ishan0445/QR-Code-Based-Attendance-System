@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout-v21/notification_action_tombstone.xml",
+        "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout-v21/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout-v21/notification_template_custom_big.xml",
+        "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout-v21/notification_template_custom_big.xml"
+    },
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout-v21/notification_template_icon_group.xml",
+        "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout-v21/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout-v21/notification_action.xml",
+        "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout-v21/notification_action.xml"
+    }
+]

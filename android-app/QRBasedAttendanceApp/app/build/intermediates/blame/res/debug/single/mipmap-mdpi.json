@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_launcher_round.png",
+        "source": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/res/mipmap-mdpi/ic_launcher_round.png"
+    },
+    {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/mipmap-mdpi/ic_launcher.png",
+        "source": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/res/mipmap-mdpi/ic_launcher.png"
+    }
+]

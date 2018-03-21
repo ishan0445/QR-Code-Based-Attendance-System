@@ -16,7 +16,49 @@ var studentcourses = mongoose.model('studentcourses',{
 	}]
 });
 
-module.exports = {studentcourses}
+var studentregistration = mongoose.model('studentregistration',{
+	name: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	}, 
+	rollNo: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	},
+	imei: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	}, 
+	phnNumber:{
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	}
+});
+
+var attendanceregistration = mongoose.model('attendanceregistration',{
+	rollNo: {
+		type: String,
+		required: true,
+		minlength:1,
+		trim: true
+	},
+	secretRegistrationKey: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	}
+});
+
+module.exports = {studentcourses, studentregistration, attendanceregistration}
 // var otherTodo = new courseqrs({
 //   facultyId: 'F123',
 //   courseId: '123',

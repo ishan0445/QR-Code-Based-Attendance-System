@@ -11,9 +11,10 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "face-recognition": "^0.7.0",
     "hbs": "^4.0.1",
-    "mongodb": "^3.0.4",
-    "mongoose": "^5.0.9",
-    "qr-image": "^3.2.0"
+    "mongoose": "^5.0.6",
+    "qr-image": "^3.2.0",
+    "regex": "^0.1.1"
   }
 }
