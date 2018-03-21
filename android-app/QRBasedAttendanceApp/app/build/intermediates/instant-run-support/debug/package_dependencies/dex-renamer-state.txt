@@ -1,4 +1,4 @@
-#Fri Mar 09 15:51:46 IST 2018
+#Wed Mar 21 16:29:22 IST 2018
 file.2=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9c9905b251d46ba5b4bea291ff4549308030e8d3/classes.dex
 base.2=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_9c9905b251d46ba5b4bea291ff4549308030e8d3
 file.1=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d66c5f5ed976668255b4e5e96ad36cd0694a4c3b/classes.dex

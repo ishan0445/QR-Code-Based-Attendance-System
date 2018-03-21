@@ -1,4 +1,4 @@
-#Fri Mar 09 16:13:50 IST 2018
+#Wed Mar 21 16:29:22 IST 2018
 base.0=/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_d691293d34bf8d44dac3725175abb3b00d1aa3b4
 renamed.1=classes.dex
 renamed.0=classes2.dex
