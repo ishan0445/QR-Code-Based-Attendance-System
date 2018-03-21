@@ -28,30 +28,52 @@ var register = (args) => {
 			if(!doc)
 				return reject({status: 'Invalid rollNo or Registration Key'});
 
-			//register the student
-			var row = new studentregistration({
-				name: args.name,
-				rollNo: args.rollNo,
-				imei: args.imei, 
-				phnNumber: args.phnNumber
-			});
-
-			//save the student details
-			row.save().then(() => {
-				//now delete the registrationKey so that it cant be used again
-				attendanceregistration.remove({rollNo: args.rollNo, 
-				secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
-					//successful registration
-					console.log('Registration successful', args.rollNo);
-		  			return resolve({status: 'Registration successful'});
-				},(e) => {
+			studentregistration.findOne({rollNo: args.rollNo}).then(
+				(doc)=>{
+					if(!doc){
+						//register the student
+						var row = new studentregistration({
+							name: args.name,
+							rollNo: args.rollNo,
+							imei: args.imei, 
+							phnNumber: args.phnNumber
+						});
+						
+						//save the student details
+						row.save().then(() => {
+							//now delete the registrationKey so that it cant be used again
+							attendanceregistration.remove({rollNo: args.rollNo, 
+							secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
+								//successful registration
+								console.log('Registration successful', args.rollNo);
+					  			return resolve({status: 'Registration successful'});
+							},(e) => {
+								console.log(err);
+				  				return reject({status : err});
+							});	
+						},(err) => {
+							console.log(err);
+							return reject({status : err});
+						});
+					}
+					else{
+						// Re-register to update information
+						studentregistration.update({rollNo: args.rollNo},
+						{ $set: { imei: args.imei }}, {multi:false}).then(
+							(doc) => {
+								console.log('IMEI updated', args.rollNo);
+					  			return resolve({status: 'IMEI update successful'});
+							}, (err) => {
+								console.log(err);
+								return reject({status : err});
+							}
+						);
+					}
+				}, (err) => {
 					console.log(err);
-	  				return reject({status : err});
-				});	
-			},(err) => {
-				console.log(err);
-				return reject({status : err});
-			});
+					return reject({status : err});
+				}
+			); //promise of findOne ends here
 		},(err) => {
 	  	   console.log(err);
 	  	   return reject({status : err});
