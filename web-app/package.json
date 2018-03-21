@@ -12,7 +12,8 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "hbs": "^4.0.1",
-    "mongoose": "^5.0.6",
+    "mongodb": "^3.0.4",
+    "mongoose": "^5.0.9",
     "qr-image": "^3.2.0"
   }
 }
