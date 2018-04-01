@@ -32,8 +32,15 @@ const imgResolution = 150;
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine','hbs');
 
-app.get('/',(req,res) => {
-	res.render('faculty.hbs');
+app.get('/:facultyId',(req,res) => {
+	var facultyId = req.params.facultyId;
+	//console.log(facultyId);
+	facultycourses.findOne({facultyId : facultyId}).then((doc)=>{
+		//console.log(doc.courses);
+		res.render('faculty.hbs',{faculty: facultyId,coursesList : doc.courses});
+	},(err)=>{
+		console.log(err);
+	})
 });
 
 app.get('/takeAttendance/:faculty/:subj',(req,res) => {
