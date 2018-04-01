@@ -144,6 +144,10 @@
         "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout/abc_alert_dialog_title_material.xml"
     },
     {
+        "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout/activity_fingerprint.xml",
+        "source": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/res/layout/activity_fingerprint.xml"
+    },
+    {
         "merged": "/Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/build/intermediates/res/merged/debug/layout/abc_action_bar_up_container.xml",
         "source": "/Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/res/layout/abc_action_bar_up_container.xml"
     },
