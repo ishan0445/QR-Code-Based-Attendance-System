@@ -12,9 +12,16 @@ const fr = require('face-recognition');
 const fd = require('./faceDetector');
 const geolib = require('geolib');
 const pathToExistingModel = './NNModel.json'
+var flash = require('connect-flash'); 
+var session = require('express-session');
 var app = express();
 var bodyParser = require('body-parser');
 var adminRoutes = require('./admin');
+var MongoStore = require('connect-mongo')(session);
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost:27017/qrbasedattendancesystem');
+
+
 const H105Coordinates = {latitude: 17.4454934, longitude: 78.3494515};
 app.use(fileUpload({limits: { fileSize: 50 * 1024 * 1024 }}));
 
@@ -25,8 +32,17 @@ if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
 }
 
 app.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
-//app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
-//app.use(bodyParser.raw({limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+app.use(bodyParser.raw({limit: '50mb'}));
+app.use(session({
+  secret: 'mysupersecret', 
+  resave: false,
+  store: new MongoStore({ mongooseConnection: mongoose.connection }), 
+  saveUninitialized: false,
+  cookie: { maxAge: 180 * 60 * 1000 }
+}));
+
+app.use(flash());
 
 const port = process.env.PORT || '3000';
 const imgResolution = 150;

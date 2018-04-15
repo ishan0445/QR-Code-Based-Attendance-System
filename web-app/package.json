@@ -10,8 +10,11 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
     "express": "^4.16.2",
     "express-fileupload": "^0.4.0",
+    "express-session": "^1.15.6",
     "face-recognition": "^0.7.0",
     "geolib": "^2.0.24",
     "hbs": "^4.0.1",
