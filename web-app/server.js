@@ -4,7 +4,7 @@ const hbs = require('hbs');
 var qr = require('./QRCodeGenerator');
 var regisManager = require('./registration');
 var {courseqrs, attendancerecord} = require('./models/attendance.js');
-var {studentcourses} = require('./models/student.js');
+var {studentcourses, studentregistration} = require('./models/student.js');
 var {facultycourses} = require('./models/faculty.js');
 const {ObjectID} = require('mongodb');
 const fs = require('fs');
@@ -15,7 +15,7 @@ const pathToExistingModel = './NNModel.json'
 var app = express();
 var bodyParser = require('body-parser');
 const H105Coordinates = {latitude: 17.4454934, longitude: 78.3494515};
-app.use(fileUpload());
+app.use(fileUpload({limits: { fileSize: 50 * 1024 * 1024 }}));
 
 const recognizer = fr.FaceRecognizer();
 if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
@@ -23,8 +23,9 @@ if(fs.existsSync(pathToExistingModel)){ //load the model if it exists
 	recognizer.load(modelState);
 }
 
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+app.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
+//app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
+//app.use(bodyParser.raw({limit: '50mb'}));
 
 const port = process.env.PORT || '3000';
 const imgResolution = 150;
@@ -135,26 +136,43 @@ app.post('/recognizeFace', function(req, res) {
 	const filePath = `./runTimeAppData/imagesForRecog/${rollNo}.jpg`;
 	// Use the mv() method to place the file somewhere on your server
 	faceImg.mv(filePath, function(err) {
-		if (err)
+		if (err){
+			console.log(err);
 			return res.status(500).send(err);
+		}
 		if(fd.recognizeFaces(recognizer,filePath,imgResolution) == rollNo){
 			fs.unlinkSync(filePath);
-			return res.send({status:'Face matched'});
+			return res.send({status:'SUCCESS',
+							msg: 'Face matched'});
 		}
 		else{
 			fs.unlinkSync(filePath);
-			return res.send({status:'Face Recognition Failed'});
+			return res.send({status:'FAILED',
+								msg: 'Face Recognition Failed'});
 		}
 	});
 
 });
 
 app.post('/validatePhoneLocation', function(req, res){
-	phnCoordinates = req.body.coordinates;
+	/*Not Using this for now
+	var phnCoordinates = req.body.coordinates;
 	if(geolib.getDistance(H105Coordinates, phnCoordinates) > 30)
 		return res.send({status: 'Device not detected at Himalaya'});
 	else
-		return res.send({status: 'Location verified'});
+		return res.send({status: 'Location verified'});*/
+	var imei = req.body.imei;
+	var rollNo = req.body.rollNo;
+	studentregistration.findOne({rollNo: rollNo, imei: imei})
+						.then((student) => {
+		if(!student){
+			console.log('RollNo and imei dont match');
+	  		return res.send({status : 'FAILED', 
+	  							msg: 'RollNo and imei dont match'});
+		}
+		return res.send({status : 'SUCCESS', 
+	  						msg: 'RollNo and imei matched'});
+	});
 });
 
 app.post('/register', function(req, res){
