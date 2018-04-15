@@ -45,7 +45,7 @@ app.use(session({
 app.use(flash());
 
 const port = process.env.PORT || '3000';
-const imgResolution = 150;
+const imgResolution = 200;
 
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine','hbs');
@@ -80,19 +80,15 @@ app.get('/getNextQR/:faculty/:subj',(req,res) => {
 		courseId: req.params.subj,
 		QRCode: QRCode[0].QRCode
 	});
-	console.log(QRCode[0].QRCode);
 	row.save().then((doc) => {
-	  console.log('Successfully saved QRCode');
+		res.send({
+			faculty : req.params.faculty,
+			subj : req.params.subj,
+			svg_string : QRCode[0].QRimage
+		});
 	}, (e) => {
 	  console.log('Unable to save QRCode', e);
 	});
-
-	res.send({
-		faculty : req.params.faculty,
-		subj : req.params.subj,
-		svg_string : QRCode[0].QRimage
-	});
-
 });
 
 app.post('/submitQRResponse',(req,res)=>{
@@ -101,56 +97,82 @@ app.post('/submitQRResponse',(req,res)=>{
 	var courseId;
 	var courseArray;
 
+	//check if QR code is a valid code emitted by us only
 	courseqrs.findOne({QRCode: QRCode}).then((course) => {
 		if(!course){
 			console.log('QRCode not matched to any course');
 			return res.send({status : 'Invalid QRCode!!'});
 		}
     	courseId = course.courseId;
+    	
     	//Check the QR code isnt stale
-
     	var renderedOn = course.renderedOn.getTime();
     	var currTime = Date.now();
 
     	if(currTime - renderedOn > 5000){
     		console.log('QR code has expired');
-    		return res.send({status : 'QR code has expired'});
+    		return res.send({status : 'FAILED',
+    							msg: 'QR code has expired'});
     	}
 
-		studentcourses.findOne({rollNo: rollNo}).then((student) => {
+    	//Check if imei and rollNo match 
+    	var imei = req.body.imei;
+		studentregistration.findOne({rollNo: rollNo, imei: imei})
+							.then((student) => {
 			if(!student){
-				console.log('RollNo doesn\'t exist');
-		  		return res.send({status : 'RollNo doesn\'t exist'});
+				console.log('RollNo and imei dont match');
+		  		return res.send({status : 'FAILED', 
+		  							msg: 'RollNo and imei dont match'});
 			}
-	    	courseArray = student.courses;
-	    	if(courseArray.indexOf(courseId) > -1) {//if student is registered in the course
-	    		// Mark attendance	
-	    		var row = new attendancerecord({
-	    			courseId: courseId,
-	    			rollNo: rollNo
-	    		});
 
-	    		row.save().then((doc) => {
-					console.log('Successfully saved Attendance');
-					return res.send({status : 'okay'});
-				}, (e) => {
-					console.log('Unable to save attendance', e);
-					return res.send({status : e});
-				});
+			//check if student registered in that course
+			studentcourses.findOne({rollNo: rollNo}).then((studentF) => {
+				if(!studentF){
+					console.log('RollNo doesn\'t exist');
+			  		return res.send({status : 'FAILED', 
+			  							msg: 'RollNo doesn\'t exist'});
+				}
+		    	courseArray = studentF.courses;
 
-	    	}
-			else{
-				console.log('Student not registered in the course');
-		  		return res.send({status : 'Student not registered in the course!!'});
-			}
-		  	
+		    	//if student is registered in the course
+		    	if(courseArray.indexOf(courseId) > -1) {
+		    		// Mark attendance	
+		    		var row = new attendancerecord({
+		    			courseId: courseId,
+		    			rollNo: rollNo
+		    		});
+
+		    		row.save().then((doc) => {
+						console.log('Successfully saved Attendance for ', rollNo);
+						return res.send({status : 'SUCCESS', 
+											msg: 'Attendance marked'});
+					}, (e) => {
+						console.log('Unable to save attendance', e);
+						return res.send({status : 'FAILED',
+			  	   							msg: err});
+					});
+
+		    	}
+				else{
+					console.log('Student not registered in the course');
+			  		return res.send({status : 'FAILED',
+			  							msg: 'Student not registered in the course!!'});
+				}
+			  	
+			},(err) => {
+			  	   console.log(err);
+			  	   return res.send({status : 'FAILED',
+			  	   						msg: err});
+			});
 		},(err) => {
-		  	   console.log(err);
-		  	   return res.send({status : err});
-		});
+  	   		console.log(err);
+  	   		return res.send({status : 'FAILED',
+			  	   				msg: err});
+  		});
   	},(err) => {
   	   console.log(err);
-  	   return res.send({status : err});
+  	   return res.send({status : 'FAILED',
+			  	   			msg: err});
   	});
 });
 
@@ -187,22 +209,10 @@ app.post('/validatePhoneLocation', function(req, res){
 		return res.send({status: 'Device not detected at Himalaya'});
 	else
 		return res.send({status: 'Location verified'});*/
-	var imei = req.body.imei;
-	var rollNo = req.body.rollNo;
-	studentregistration.findOne({rollNo: rollNo, imei: imei})
-						.then((student) => {
-		if(!student){
-			console.log('RollNo and imei dont match');
-	  		return res.send({status : 'FAILED', 
-	  							msg: 'RollNo and imei dont match'});
-		}
-		return res.send({status : 'SUCCESS', 
-	  						msg: 'RollNo and imei matched'});
-	});
+	
 });
 
 app.post('/register', function(req, res){
-	console.log(req.body);
 	var args = {name: req.body.name, rollNo: req.body.rollNo, 
 				imei: req.body.imei, phnNumber: req.body.phnNumber, 
 				secretRegistrationKey: req.body.secretRegistrationKey};

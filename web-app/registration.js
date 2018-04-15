@@ -26,7 +26,8 @@ var register = (args) => {
 		attendanceregistration.findOne({rollNo: args.rollNo, 
 				secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
 			if(!doc)
-				return reject({status: 'Invalid rollNo or Registration Key'});
+				return reject({status: 'FAILED', 
+								msg: 'Invalid rollNo or Registration Key'});
 
 			studentregistration.findOne({rollNo: args.rollNo}).then(
 				(doc)=>{
@@ -46,7 +47,8 @@ var register = (args) => {
 							secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
 								//successful registration
 								console.log('Registration successful', args.rollNo);
-					  			return resolve({status: 'Registration successful'});
+					  			return resolve({status: 'SUCCESS',
+					  							msg: 'Registration successful'});
 							},(e) => {
 								console.log(err);
 				  				return reject({status : err});
@@ -66,7 +68,8 @@ var register = (args) => {
 								secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
 									//successful registration
 									console.log('IMEI updated', args.rollNo);
-					  				return resolve({status: 'IMEI update successful'});
+					  				return resolve({status: 'SUCCESS', 
+					  								msg: 'IMEI update successful'});
 								},(e) => {
 									console.log(err);
 					  				return reject({status : err});

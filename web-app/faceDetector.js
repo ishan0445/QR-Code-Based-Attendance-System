@@ -51,10 +51,12 @@ var recognizeFaces = (recognizer,faceImgPath,resolution) => {
 	faceImg = fr.loadImage(faceImgPath);
 	const detector = fr.FaceDetector();
 	const faceImages = detector.detectFaces(faceImg, resolution);
+	/*faceImages.forEach((img) => 
+		fr.saveImage('/home/hemant/github/QRCodeBasedAttendance/web-app/runTimeAppData/imagesForRecog/current.jpg', img));*/
 	if(faceImages.length == 0) 
 		return 'null';
 	const bestPrediction = recognizer.predictBest(faceImages[0]);
-	if(bestPrediction.distance > 0.6) //some metric of accuracy
+	if(bestPrediction.distance > 0.3) //some metric of accuracy
 		return 'null';
 	return bestPrediction.className;
 }
