@@ -11,7 +11,7 @@ var populateAttendanceRegistration = (rollNoFile) => {
 	rd.on('line', function(line) {
 	    var row = new attendanceregistration({
 			rollNo: line,
-			secretRegistrationKey: new ObjectID().toString()
+			secretRegistrationKey: new ObjectID().toString().substr(20, 4)
 		});
 	    row.save().then(() => {
 		},(err) => {
@@ -61,8 +61,16 @@ var register = (args) => {
 						studentregistration.update({rollNo: args.rollNo},
 						{ $set: { imei: args.imei }}, {multi:false}).then(
 							(doc) => {
-								console.log('IMEI updated', args.rollNo);
-					  			return resolve({status: 'IMEI update successful'});
+								//now delete the registrationKey so that it cant be used again
+								attendanceregistration.remove({rollNo: args.rollNo, 
+								secretRegistrationKey: args.secretRegistrationKey}).then((doc) => {
+									//successful registration
+									console.log('IMEI updated', args.rollNo);
+					  				return resolve({status: 'IMEI update successful'});
+								},(e) => {
+									console.log(err);
+					  				return reject({status : err});
+								});	
 							}, (err) => {
 								console.log(err);
 								return reject({status : err});

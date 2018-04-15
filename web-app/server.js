@@ -14,6 +14,7 @@ const geolib = require('geolib');
 const pathToExistingModel = './NNModel.json'
 var app = express();
 var bodyParser = require('body-parser');
+var adminRoutes = require('./admin');
 const H105Coordinates = {latitude: 17.4454934, longitude: 78.3494515};
 app.use(fileUpload({limits: { fileSize: 50 * 1024 * 1024 }}));
 
@@ -33,7 +34,9 @@ const imgResolution = 150;
 hbs.registerPartials(__dirname+'/views/partials');
 app.set('view engine','hbs');
 
-app.get('/:facultyId',(req,res) => {
+app.use('/admin', adminRoutes);
+
+app.get('/faculty/:facultyId',(req,res) => {
 	var facultyId = req.params.facultyId;
 	//console.log(facultyId);
 	facultycourses.findOne({facultyId : facultyId}).then((doc)=>{
@@ -183,10 +186,12 @@ app.post('/validatePhoneLocation', function(req, res){
 });
 
 app.post('/register', function(req, res){
+	console.log(req.body);
 	var args = {name: req.body.name, rollNo: req.body.rollNo, 
 				imei: req.body.imei, phnNumber: req.body.phnNumber, 
 				secretRegistrationKey: req.body.secretRegistrationKey};
 	regisManager.register(args).then((status) => {
+		console.log('Returning ', status);
 		return res.send(status);
 	}, (e) => {
 		console.log(e);
