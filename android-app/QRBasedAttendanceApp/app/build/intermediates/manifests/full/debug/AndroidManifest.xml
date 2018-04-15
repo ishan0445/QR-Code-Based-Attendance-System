@@ -8,8 +8,18 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="26" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission
+        android:name="android.permission.USE_FINGERPRINT"
+        android:required="true" />
 
     <meta-data
         android:name="android.support.VERSION"
@@ -22,7 +32,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme" >
-        <activity android:name="com.ishan0445.qrbasedattendanceapp.MainActivity" >
+        <activity android:name="com.ishan0445.qrbasedattendanceapp.MainActivity" />
+        <activity android:name="com.ishan0445.qrbasedattendanceapp.FingerprintActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

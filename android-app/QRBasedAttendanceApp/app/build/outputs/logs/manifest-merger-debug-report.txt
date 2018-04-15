@@ -1,6 +1,6 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:2:1-22:12
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:2:1-35:12
 	package
 		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:3:5-49
 		INJECTED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml
@@ -13,16 +13,36 @@ ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedA
 	android:versionCode
 		INJECTED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml
 		INJECTED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:5:5-79
+	android:name
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:5:22-76
 uses-permission#android.permission.READ_PHONE_STATE
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:4:5-74
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:6:5-75
 	android:name
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:4:22-72
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:6:22-72
 uses-permission#android.permission.INTERNET
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:5:5-66
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:7:5-67
 	android:name
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:5:22-64
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:7:22-64
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:8:5-81
+	android:name
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:8:22-78
+uses-feature#android.hardware.camera
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:10:5-12:35
+	android:required
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:12:9-32
+	android:name
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:11:9-47
+uses-permission#android.permission.USE_FINGERPRINT
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:14:5-16:35
+	android:required
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:16:9-32
+	android:name
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:15:9-58
 application
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:6:5-20:19
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:18:5-33:19
 MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] /Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/AndroidManifest.xml:29:5-20
 MERGED from [com.android.support:support-v4:26.0.0-alpha1] /Users/ishan/.android/build-cache/00d5d9f7c531ae09c0ed72d73d230e2c7eeee7a4/output/AndroidManifest.xml:29:5-20
 MERGED from [com.android.support:support-media-compat:26.0.0-alpha1] /Users/ishan/.android/build-cache/cce4a9f4e3cc1cdf4bc6d61f2716c99afdfa75ce/output/AndroidManifest.xml:29:5-20
@@ -35,31 +55,35 @@ MERGED from [com.android.support:support-compat:26.0.0-alpha1] /Users/ishan/.and
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] /Users/ishan/.android/build-cache/d09ff09d4744f414ec10b14353be995ea9c18428/output/AndroidManifest.xml:9:5-20
 MERGED from [com.android.volley:volley:1.1.0] /Users/ishan/.android/build-cache/3330575cdf43b697d1ea98c2c7708382b78ab6e0/output/AndroidManifest.xml:9:5-20
 	android:label
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:9:9-41
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:21:9-41
 	android:supportsRtl
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:11:9-35
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:23:9-35
 	android:roundIcon
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:10:9-54
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:22:9-54
 	android:allowBackup
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:7:9-35
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:19:9-35
 	android:icon
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:8:9-43
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:20:9-43
 	android:theme
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:12:9-40
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:24:9-40
 activity#com.ishan0445.qrbasedattendanceapp.MainActivity
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:13:9-19:20
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:25:9-49
 	android:name
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:13:19-47
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:25:19-47
+activity#com.ishan0445.qrbasedattendanceapp.FingerprintActivity
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:26:9-32:20
+	android:name
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:26:19-54
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:14:13-18:29
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:27:13-31:29
 action#android.intent.action.MAIN
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:15:17-69
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:28:17-69
 	android:name
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:15:25-66
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:28:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:17:17-77
+ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:30:17-77
 	android:name
-		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:17:27-74
+		ADDED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml:30:27-74
 uses-sdk
 INJECTED from /Users/ishan/Projects/QR-Based-Attendance-System/android-app/QRBasedAttendanceApp/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 MERGED from [com.android.support:appcompat-v7:26.0.0-alpha1] /Users/ishan/.android/build-cache/58da2774a54f022dadb5eb1d672fef08f6ca9eeb/output/AndroidManifest.xml:21:5-23:78
