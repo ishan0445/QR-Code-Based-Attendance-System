@@ -25,9 +25,10 @@ router.post('/',(req,res)=>{
 });
 
 router.get('/dashboard', function(req, res, next) {
-	attendancerecord.findOne().then((doc)=>{
-		console.log(doc);
-		res.render('DashBoard1.hbs',{coursesList : doc.courseNames});
+	courses.find().then((docs)=>{
+		var Courses = [];
+		docs.forEach((doc) => Courses.push(doc.courseId));
+		res.render('DashBoard1.hbs',{coursesList : Courses});
 	},(err)=>{
 		console.log(err);
 	})
@@ -36,16 +37,33 @@ router.get('/dashboard', function(req, res, next) {
 router.post('/dashboard', function(req, res, next) {
 	var courseId = req.body.course;
 	var date = req.body.dateOfAttendance;
-	console.log(courseId);
-	console.log(date);
-	attendancerecord.findOne({courseId:courseId,markedOn:date}).then((doc)=>{
-		console.log(doc);
+
+	attendancerecord.find({courseId: courseId,
+							markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
+							"$lte": new Date(date+' 23:59:59Z')}
+						}).then((Students)=>{
+		var courseAttendance = [];
+		var presentStudents = [];
+		Students.forEach((student) => {
+			courseAttendance.push({
+				name: student.name,
+				rollNo: student.rollNo,
+				status: 'Present'
+			});
+		});
+		res.render('DashBoard2.hbs',{courseName : courseId,
+						dateOfAttendance : date, tempList : courseAttendance});
 	},(err)=>{
 		console.log(err);
-	})
-	var tempList = [{name:"Dhawnit",rollNo : "20162076", status:"Present"},{name:"Kanishtha",rollNo : "20162080", status:"Absent"}];
-	res.render('DashBoard2.hbs',{courseName : courseName,dateOfAttendance : date, tempList : tempList});
+	});
 });
 
+router.get('/dashboard3', function(req, res, next) {
+	res.render('DashBoard3.hbs');
+});
+
+router.get('/dashboard5', function(req, res, next) {
+	res.render('DashBoard5.hbs');
+});
 
 module.exports = router;

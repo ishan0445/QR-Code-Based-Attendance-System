@@ -126,6 +126,7 @@ app.post('/submitQRResponse',(req,res)=>{
 		  							msg: 'RollNo and imei dont match'});
 			}
 
+			var name = student.name;
 			//check if student registered in that course
 			studentcourses.findOne({rollNo: rollNo}).then((studentF) => {
 				if(!studentF){
@@ -140,7 +141,8 @@ app.post('/submitQRResponse',(req,res)=>{
 		    		// Mark attendance	
 		    		var row = new attendancerecord({
 		    			courseId: courseId,
-		    			rollNo: rollNo
+		    			rollNo: rollNo,
+		    			name: name
 		    		});
 
 		    		row.save().then((doc) => {
