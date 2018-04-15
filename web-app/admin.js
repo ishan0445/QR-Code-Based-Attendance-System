@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {courses} = require('./models/coursesStudents.js');
+var {courses, coursestudent} = require('./models/coursesStudents.js');
 var {attendancerecord} = require('./models/attendance.js');
 
 router.use("/public", express.static('public'));
@@ -50,7 +50,23 @@ router.post('/dashboard', function(req, res, next) {
 				rollNo: student.rollNo,
 				status: 'Present'
 			});
+			presentStudents.push(student.rollNo);
 		});
+
+		/*//get absent students
+		coursestudent.find({courseId: courseId}).then((doc) => {
+			var allStudents = doc.rollNos;
+			var absent = coursestudent.diff(presentStudents);
+			absent.forEach((student) => {
+				courseAttendance.push({
+					name: 'Khurana',
+					rollNo: student.rollNo,
+					status: 'Absent'
+				});
+			});
+			res.render('DashBoard2.hbs',{courseName : courseId,
+						dateOfAttendance : date, tempList : courseAttendance});
+		});*/
 		res.render('DashBoard2.hbs',{courseName : courseId,
 						dateOfAttendance : date, tempList : courseAttendance});
 	},(err)=>{
@@ -59,6 +75,31 @@ router.post('/dashboard', function(req, res, next) {
 });
 
 router.get('/dashboard3', function(req, res, next) {
+	var date = req.params.dateOfAttendance;
+	console.log(date);
+	attendancerecord.find({
+		markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
+							"$lte": new Date(date+' 23:59:59Z')}
+						}).then((courses)=>{
+		console.log(courses);
+	});
+
+	// .distinct('courseId', (courses)=>{
+	// 	console.log(courses);
+	// });
+
+	// var coursesOnDate = 
+	// coursestudent.find({}).then((courses) => {
+
+	// 	var allStudents = doc.rollNos;
+	// 	var absent = coursestudent.diff(presentStudents);
+	// 	absent.forEach((student) => {
+	// 		courseAttendance.push({
+	// 			name: 'Khurana',
+	// 			rollNo: student.rollNo,
+	// 			status: 'Absent'
+	// 		});
+	// });
 	res.render('DashBoard3.hbs');
 });
 
