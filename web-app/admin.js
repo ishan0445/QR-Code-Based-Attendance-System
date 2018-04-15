@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var {courses} = require('./models/coursesStudents.js');
+var {attendancerecord} = require('./models/attendance.js');
 
 router.use("/public", express.static('public'));
 
@@ -23,7 +25,27 @@ router.post('/',(req,res)=>{
 });
 
 router.get('/dashboard', function(req, res, next) {
-	res.send('Hello Khurana');
+	attendancerecord.findOne().then((doc)=>{
+		console.log(doc);
+		res.render('DashBoard1.hbs',{coursesList : doc.courseNames});
+	},(err)=>{
+		console.log(err);
+	})
 });
+
+router.post('/dashboard', function(req, res, next) {
+	var courseId = req.body.course;
+	var date = req.body.dateOfAttendance;
+	console.log(courseId);
+	console.log(date);
+	attendancerecord.findOne({courseId:courseId,markedOn:date}).then((doc)=>{
+		console.log(doc);
+	},(err)=>{
+		console.log(err);
+	})
+	var tempList = [{name:"Dhawnit",rollNo : "20162076", status:"Present"},{name:"Kanishtha",rollNo : "20162080", status:"Absent"}];
+	res.render('DashBoard2.hbs',{courseName : courseName,dateOfAttendance : date, tempList : tempList});
+});
+
 
 module.exports = router;
