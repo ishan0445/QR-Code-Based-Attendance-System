@@ -112,10 +112,13 @@
                                     </thead>
                                     <!-- Dynamic data from database -->
                                     <tbody>
-                                        <tr>
-                                            <td>Distributed Systems</td>
-                                            <td>90%</td>
-                                        </tr>
+                                        {{#each data}}
+                                            <tr>
+                                                <td>{{this.courseId}}</td>
+                                                <td>{{this.percentage}}</td>
+                                            </tr>
+                                        {{/each}}
+                                        
                                     </tbody>
                                 </table>
                             </div>

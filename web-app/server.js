@@ -53,23 +53,49 @@ app.use(express.static(__dirname+'/public'));
 
 app.use('/admin', adminRoutes);
 
+app.get('/', (req, res) => {
+	var messages = req.flash('error')[0];
+	res.render('facultyLogin.hbs', {
+		successMsg: messages,
+		noMessages: !messages
+	})
+});
+
+app.post('/', (req, res) => {
+	var userName = req.body.user;
+	var password = req.body.passwd;
+	if(userName=='purini' && password == 'purini')
+		return res.redirect('/faculty/'+userName);
+	else{
+		req.flash('error', 'Invalid username password');
+		return res.redirect('/');
+	}
+});
+
 app.get('/faculty/:facultyId',(req,res) => {
 	var facultyId = req.params.facultyId;
-	//console.log(facultyId);
+	var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    var date = [year, month, day].join('-');
 	facultycourses.findOne({facultyId : facultyId}).then((doc)=>{
 		//console.log(doc.courses);
-		res.render('faculty.hbs',{faculty: facultyId,coursesList : doc.courses});
+		res.render('faculty.hbs',{faculty: facultyId,coursesList : doc.courses, date: date});
 	},(err)=>{
 		console.log(err);
 	})
 });
 
-app.get('/takeAttendance/:faculty/:subj',(req,res) => {
-	// var svg_string = qr.imageSync('I love QR!', { type: 'svg',size: 30});
-
+app.post('/takeAttendance',(req,res) => {
 	res.render('takeAttendance.hbs',{
-		faculty : req.params.faculty,
-		subj : req.params.subj
+		faculty : req.body.facultyId,
+		subj : req.body.course,
+		date: req.body.dateOfAttendance
 	});
 });
 
@@ -97,81 +123,101 @@ app.post('/submitQRResponse',(req,res)=>{
 	var QRCode = req.body.QRCode;
 	var courseId;
 	var courseArray;
+	var d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    var today = [year, month, day].join('-');
 
 	//check if QR code is a valid code emitted by us only
 	courseqrs.findOne({QRCode: QRCode}).then((course) => {
 		if(!course){
 			console.log('QRCode not matched to any course');
-			return res.send({status : 'Invalid QRCode!!'});
+			return res.send({status : 'FAILED',
+							msg: 'Invalid QRCode!!'});
 		}
     	courseId = course.courseId;
     	
-    	//Check the QR code isnt stale
-    	var renderedOn = course.renderedOn.getTime();
-    	var currTime = Date.now();
-
-    	if(currTime - renderedOn > 5000){
-    		console.log('QR code has expired');
-    		return res.send({status : 'FAILED',
-    							msg: 'QR code has expired'});
-    	}
-
-    	//Check if imei and rollNo match 
-    	var imei = req.body.imei;
-		studentregistration.findOne({rollNo: rollNo, imei: imei})
-							.then((student) => {
-			if(!student){
-				console.log('RollNo and imei dont match');
-		  		return res.send({status : 'FAILED', 
-		  							msg: 'RollNo and imei dont match'});
+    	//check if attendance is already marked
+    	attendancerecord.findOne({courseId: courseId, 
+    		rollNo: rollNo, 
+    		markedOn: {"$gte": new Date(today+' 00:00:00').toISOString(), 
+				"$lte": new Date(today+' 23:59:59').toISOString()}
+						}).then((doc) => {
+			if(doc){
+				console.log('Attendance already marked for '+rollNo);
+				return res.send({status : 'SUCCESS',
+								msg: 'Attendance already marked'});		
 			}
+			//Check the QR code isnt stale
+	    	var renderedOn = course.renderedOn.getTime();
+	    	var currTime = Date.now();
 
-			var name = student.name;
-			//check if student registered in that course
-			studentcourses.findOne({rollNo: rollNo}).then((studentF) => {
-				if(!studentF){
-					console.log('RollNo doesn\'t exist');
+	    	if(currTime - renderedOn > 5000){
+	    		console.log('QR code has expired');
+	    		return res.send({status : 'FAILED',
+	    							msg: 'QR code has expired'});
+	    	}
+
+	    	//Check if imei and rollNo match 
+	    	var imei = req.body.imei;
+			studentregistration.findOne({rollNo: rollNo, imei: imei})
+								.then((student) => {
+				if(!student){
+					console.log('RollNo and imei dont match');
 			  		return res.send({status : 'FAILED', 
-			  							msg: 'RollNo doesn\'t exist'});
+			  							msg: 'RollNo and imei dont match'});
 				}
-		    	courseArray = studentF.courses;
 
-		    	//if student is registered in the course
-		    	if(courseArray.indexOf(courseId) > -1) {
-		    		// Mark attendance	
-		    		var row = new attendancerecord({
-		    			courseId: courseId,
-		    			rollNo: rollNo,
-		    			name: name
-		    		});
+				var name = student.name;
+				//check if student registered in that course
+				studentcourses.findOne({rollNo: rollNo}).then((studentF) => {
+					if(!studentF){
+						console.log('RollNo doesn\'t exist');
+				  		return res.send({status : 'FAILED', 
+				  							msg: 'RollNo doesn\'t exist'});
+					}
+			    	courseArray = studentF.courses;
 
-		    		row.save().then((doc) => {
-						console.log('Successfully saved Attendance for ', rollNo);
-						return res.send({status : 'SUCCESS', 
-											msg: 'Attendance marked'});
-					}, (e) => {
-						console.log('Unable to save attendance', e);
-						return res.send({status : 'FAILED',
-			  	   							msg: err});
-					});
+			    	//if student is registered in the course
+			    	if(courseArray.indexOf(courseId) > -1) {
+			    		// Mark attendance	
+			    		var row = new attendancerecord({
+			    			courseId: courseId,
+			    			rollNo: rollNo,
+			    			name: name
+			    		});
 
-		    	}
-				else{
-					console.log('Student not registered in the course');
-			  		return res.send({status : 'FAILED',
-			  							msg: 'Student not registered in the course!!'});
-				}
-			  	
+			    		row.save().then((doc) => {
+							console.log('Successfully saved Attendance for ', rollNo);
+							return res.send({status : 'SUCCESS', 
+												msg: 'Attendance marked'});
+						}, (e) => {
+							console.log('Unable to save attendance', e);
+							return res.send({status : 'FAILED',
+				  	   							msg: err});
+						});
+
+			    	}
+					else{
+						console.log('Student not registered in the course');
+				  		return res.send({status : 'FAILED',
+				  							msg: 'Student not registered in the course!!'});
+					}
+				  	
+				},(err) => {
+				  	   console.log(err);
+				  	   return res.send({status : 'FAILED',
+				  	   						msg: err});
+				});
 			},(err) => {
-			  	   console.log(err);
-			  	   return res.send({status : 'FAILED',
-			  	   						msg: err});
-			});
-		},(err) => {
-  	   		console.log(err);
-  	   		return res.send({status : 'FAILED',
-			  	   				msg: err});
-  		});
+	  	   		console.log(err);
+	  	   		return res.send({status : 'FAILED',
+				  	   				msg: err});
+	  		});
+		});
   	},(err) => {
   	   console.log(err);
   	   return res.send({status : 'FAILED',

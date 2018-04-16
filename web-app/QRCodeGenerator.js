@@ -6,7 +6,7 @@ var QRCodeGenerator = (n) => {
 	for(var i=0;i<n;i++){
 		var code = new ObjectID().toString();
 		var QR = qr.imageSync(code,
-			{ type: 'svg', size: 5 });
+			{ type: 'svg', size: 22 });
 		QRCodes.push({QRCode: code, 
 					   QRimage : QR});
 		//console.log(QR);

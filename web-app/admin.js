@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var {courses, coursestudent} = require('./models/coursesStudents.js');
+var {courses, coursestudent} = require('./models/coursesstudents.js');
 var {attendancerecord} = require('./models/attendance.js');
 
 router.use("/public", express.static('public'));
@@ -39,8 +39,8 @@ router.post('/dashboard', function(req, res, next) {
 	var date = req.body.dateOfAttendance;
 
 	attendancerecord.find({courseId: courseId,
-							markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
-							"$lte": new Date(date+' 23:59:59Z')}
+							markedOn: {"$gte": new Date(date+' 00:00:00').toISOString(), 
+							"$lte": new Date(date+' 23:59:59').toISOString()}
 						}).then((Students)=>{
 		var courseAttendance = [];
 		var presentStudents = [];
@@ -83,21 +83,28 @@ router.post('/dashboard3', function(req, res, next) {
 	var date = req.body.dateOfAttendance;
 	var data = [];
 	attendancerecord.find({
-		markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
-							"$lte": new Date(date+' 23:59:59Z')}
+		markedOn: {"$gte": new Date(date+' 00:00:00').toISOString(), 
+							"$lte": new Date(date+' 23:59:59').toISOString()}
 						}).distinct('courseId', function(err, coursesOnDate){
-		coursesOnDate.forEach((course)=>{
-			coursestudent.find({courseId : course}).count(function(err, totalStudents){
+
+		var size = coursesOnDate.length;
+		coursesOnDate.forEach((course, j)=>{
+			coursestudent.findOne({courseId: course}).then((doc)=>{
+				var totalStudents = doc.rollNos.length;
 				attendancerecord.find({courseId : course, 
-					markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
-							"$lte": new Date(date+' 23:59:59Z')}
+					markedOn: {"$gte": new Date(date+' 00:00:00').toISOString(), 
+							"$lte": new Date(date+' 23:59:59').toISOString()}
 						}).count(function(err, presentStudents){
-					console.log(totalStudents, presentStudents);
-					data.push({courseId: course, percentage: presentStudents/totalStudents});
+					//console.log(presentStudents, totalStudents);
+					data.push({courseId: course, percentage: (presentStudents/totalStudents)*100});
+
+					if(j==size-1){
+						//console.log(data, j, size);
+						res.render('DashBoard4.hbs', {data: data});			
+					}
 				});
 			});
 		});
-		res.render('DashBoard4.hbs', data);
 	});
 });
 
