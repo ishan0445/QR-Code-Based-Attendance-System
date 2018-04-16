@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<link rel="shortcut icon" href="iiit-new.png" type="image/x-icon">
+
+    	<title>Attandance Page</title>
+    	<link type="text/css" href="style.css" rel="stylesheet">			
+	</head>
+	
+	<body>
+
+		<img src="iiit_logo.JPG" alt="college logo" width="300" height="150">
+		<div class="exactCenter">
+	
+		<select id="status" name="status">
+			<option value="Present" >Present</option>
+			<option value="Absent" >Absent</option>
+		</select>
+
+		</br></br>
+
+		<select id="course" name="subject">
+			<option value="DS">Distributed Systems</option>
+			<option value="POIS">Principles of Information Security</option>
+			<option value="DB">DataBase System</option>
+			<option value="APS"> APS</option>
+			<option value="SE"> Software Eng</option>
+		</select>
+		</br> </br>
+		
+		<input id="date" type="date">
+		</br></br><!-- 
+		<input type="button" class="btn" value="Get Attendance" onclick="sendData()"> -->
+		
+	<button id="send" class = "btn" >Get Attandance</button><!-- 
+	<button id="csvBtn" class = "btn" onclick="exportTableToCSV('student.csv')">Export HTML Table To CSV File</button> -->
+	<ul id="presentStudents">
+	<ul>
+
+	
+
+	</div>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+
+		<script>
+			var data1 = []
+		$(document).ready(function(){
+			// $("#csvBtn").hide();
+		    $("#send").click(function(){
+		        var jsonData = {
+					status : document.getElementById("status").value,
+					subj : document.getElementById("course").value,
+					date : document.getElementById("date").value
+		        }
+
+		        console.log(jsonData)
+
+
+
+		        $.post("/getAttandance",
+		        jsonData
+		        ,(data,status)=>{
+		        	console.log(data)
+		        	$("#presentStudents").empty()
+		        	for (var i = data.length - 1; i >= 0; i--) {
+		        		//data1.append(data[i].rollNo)
+		        		$("#presentStudents").append("<li>"+data[i].rollNo+"</li>")
+		        	}
+
+		        	$("#csvBtn").show();
+		        });
+		    });
+		});
+
+
+
+		function downloadCSV(csv, filename) {
+		    var csvFile;
+		    var downloadLink;
+
+		    // CSV file
+		    csvFile = new Blob([csv], {type: "text/csv"});
+
+		    // Download link
+		    downloadLink = document.createElement("a");
+
+		    // File name
+		    downloadLink.download = filename;
+
+		    // Create a link to the file
+		    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+		    // Hide download link
+		    downloadLink.style.display = "none";
+
+		    // Add the link to DOM
+		    document.body.appendChild(downloadLink);
+
+		    // Click download link
+		    downloadLink.click();
+		}
+
+		function exportTableToCSV(filename) {
+		    var csv = [];
+		    var rows = data1.length;
+
+		   /* for (var i = 0; i < data1.length; i++) {
+		        // var row = [], cols = rows[i].querySelectorAll("td, th");
+		        
+		        // for (var j = 0; j < cols.length; j++) 
+		        //     row.push(cols[j].innerText);
+		        
+		        // csv.push(row.join(","));
+
+		
+		    }*/
+		    csv.push(data1.join(","));
+
+		    // Download CSV file
+		    downloadCSV(csv.join("\n"), filename);
+		}
+
+
+	</script>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<link rel="shortcut icon" href="iiit-new.png" type="image/x-icon">
+
+    	<title>Faculty HomePage</title>
+    	<link type="text/css" href="style.css" rel="stylesheet">			
+	</head>
+	
+	<body>
+
+		<img src="iiit_logo.JPG" alt="college logo" width="300" height="150">
+		<div class="exactCenter">
+	
+		<select id="faculty" name="Faculty">
+			<option value="Purini" >Suresh Purini</option>
+			<option value="Kannan" >Kannan Srinathan</option>
+			<option value="Pudi">Vikram </option>
+			<option value="Svg">SVG</option>
+		</select>
+
+		</br></br>
+
+		<select id="course" name="Subject">
+			<option value="DS">Distributed Systems</option>
+			<option value="POIS">Principles of Information Security</option>
+			<option value="DB">DataBase System</option>
+			<option value="APS"> APS</option>
+			<option value="SE"> Software Eng</option>
+
+		</select>
+
+		</br></br>
+		<input type="button" class="btn" value="Take Attendance" onclick="sendData()">
+
+		<script>
+			function sendData() {
+				var faculty = document.getElementById("faculty").value;
+				var course = document.getElementById("course").value;
+				
+				window.location = "/takeAttendance/"+faculty+"/"+course;
+			}
+		</script>
+		</div>
+	</body>
+</html>

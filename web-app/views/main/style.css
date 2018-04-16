@@ -1,0 +1,86 @@
+body{
+	background-color:white; 
+}
+
+.exactCenter {
+	width:200px;
+	height:200px;
+	position: fixed;
+
+	top: 50%;
+	left: 50%;
+	margin-top: -100px;
+	margin-left: -100px;
+}
+
+#faculty {
+	background-color: #ddd;
+    color: black;
+    padding: 16px 32px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin: 4px 2px;
+  	border-radius: 15px;
+    transition: 0.3s;
+}
+
+#faculty:hover {
+	background-color:blue;
+	color:white;
+}
+
+#status {
+	background-color: #ddd;
+    color: black;
+    padding: 16px 32px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin: 4px 2px;
+  	border-radius: 15px;
+    transition: 0.3s;
+}
+
+#status:hover {
+	background-color:blue;
+	color:white;
+}
+
+#course {
+	background-color: #ddd;
+    color: black;
+    padding: 16px 32px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    margin: 4px 2px;
+  	border-radius: 15px;
+    transition: 0.3s;
+}
+
+#course:hover {
+	background-color:blue;
+	color:white;
+}
+
+.btn {
+  padding: 15px 25px;
+  font-size: 24px;
+  text-align: center;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.btn:hover {background-color: #3e8e41}
+
+.btn:active {
+  background-color: lightblue;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
