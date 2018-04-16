@@ -75,32 +75,30 @@ router.post('/dashboard', function(req, res, next) {
 });
 
 router.get('/dashboard3', function(req, res, next) {
-	var date = req.params.dateOfAttendance;
-	console.log(date);
+	res.render('DashBoard3.hbs');
+});
+
+
+router.post('/dashboard3', function(req, res, next) {
+	var date = req.body.dateOfAttendance;
+	var data = [];
 	attendancerecord.find({
 		markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
 							"$lte": new Date(date+' 23:59:59Z')}
-						}).then((courses)=>{
-		console.log(courses);
+						}).distinct('courseId', function(err, coursesOnDate){
+		coursesOnDate.forEach((course)=>{
+			coursestudent.find({courseId : course}).count(function(err, totalStudents){
+				attendancerecord.find({courseId : course, 
+					markedOn: {"$gte": new Date(date+' 00:00:00Z'), 
+							"$lte": new Date(date+' 23:59:59Z')}
+						}).count(function(err, presentStudents){
+					console.log(totalStudents, presentStudents);
+					data.push({courseId: course, percentage: presentStudents/totalStudents});
+				});
+			});
+		});
+		res.render('DashBoard4.hbs', data);
 	});
-
-	// .distinct('courseId', (courses)=>{
-	// 	console.log(courses);
-	// });
-
-	// var coursesOnDate = 
-	// coursestudent.find({}).then((courses) => {
-
-	// 	var allStudents = doc.rollNos;
-	// 	var absent = coursestudent.diff(presentStudents);
-	// 	absent.forEach((student) => {
-	// 		courseAttendance.push({
-	// 			name: 'Khurana',
-	// 			rollNo: student.rollNo,
-	// 			status: 'Absent'
-	// 		});
-	// });
-	res.render('DashBoard3.hbs');
 });
 
 router.get('/dashboard5', function(req, res, next) {
