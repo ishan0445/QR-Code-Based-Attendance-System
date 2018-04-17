@@ -10,14 +10,22 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "connect-cas": "^1.8.1",
+    "connect-cas2": "^1.2.5",
+    "connect-flash": "^0.1.1",
+    "connect-mongo": "^2.0.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.2",
     "express-fileupload": "^0.4.0",
+    "express-session": "^1.15.6",
     "face-recognition": "^0.7.0",
     "geolib": "^2.0.24",
     "hbs": "^4.0.1",
     "mongoose": "^5.0.6",
     "qr-image": "^3.2.0",
     "readline": "^1.3.0",
-    "regex": "^0.1.1"
+    "regex": "^0.1.1",
+    "session-memory-store": "^0.2.2"
   }
 }

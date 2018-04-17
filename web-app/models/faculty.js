@@ -8,6 +8,18 @@ var facultycourses = mongoose.model('facultycourses',{
 		minlength: 1,
 		trim: true
 	},
+	facultyName: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	password: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
 	courses: [{
 		type: String,
 		required: true,

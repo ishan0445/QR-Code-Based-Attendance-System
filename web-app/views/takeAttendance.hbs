@@ -2,18 +2,36 @@
 <html>
 	<head>
 		<title>QR Generator</title>
-	</head>
+		<meta charset="utf-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+   	</head>
+
+	<style>
+		#finishAttendance {
+			  border-radius: 4px;
+			  background-color: #f4511e;
+			  border: none;
+			  color: #FFFFFF;
+			  text-align: center;
+			  font-size: 15px;
+			  padding: 5px;
+			  width: 200px;
+			  transition: all 0.5s;
+			  cursor: pointer;
+			  margin: 0px;
+			}
+	</style>
 
 	<body>
-		<h1>{{faculty}}</h1>
-		<h3>{{subj}}
+		<!-- <h1>{{faculty}}</h1> -->
+		<!--h1>{{subj}} </h1> -->
 		<div align="center" id="qrCode">
 			{{{svg_string}}}
 		</div>
-	</br>
-	<input id="finishAttendance" value="Stop Attendance">
-
-
+		<div align="center">
+			<input id="finishAttendance" value="Stop Attendance">
+		</div>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 	<script>
@@ -33,7 +51,7 @@
 			
 			$("#finishAttendance").click(function() {
 				clearInterval(tid);
-				window.location.replace("/");
+				window.location.replace("/faculty/{{faculty}}");
 			});
 
 		});

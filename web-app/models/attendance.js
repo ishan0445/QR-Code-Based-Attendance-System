@@ -46,6 +46,12 @@ var attendancerecord = mongoose.model('attendancerecord',{
 		minlength: 1,
 		trim: true
 	},
+	name: {
+		type: String,
+		required: false,
+		minlength: 1,
+		trim: true
+	},
 	markedOn: {
 		type: Date,
 		required: true,
