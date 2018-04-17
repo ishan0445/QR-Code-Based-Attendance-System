@@ -64,15 +64,19 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
 	var userName = req.body.user;
 	var password = req.body.passwd;
-	if(userName=='purini' && password == 'purini')
+	facultycourses.findOne({facultyId: userName, password: password}).then((doc)=>{
+		if(!doc){
+			req.flash('error', 'Invalid username password');
+			return res.redirect('/');
+		}
+		req.session.userName=userName;
+		req.session.name=doc.facultyName;
 		return res.redirect('/faculty/'+userName);
-	else{
-		req.flash('error', 'Invalid username password');
-		return res.redirect('/');
-	}
+	});
 });
 
 app.get('/faculty/:facultyId',(req,res) => {
+	if(!req.session.userName) return res.redirect('/');
 	var facultyId = req.params.facultyId;
 	var d = new Date(),
         month = '' + (d.getMonth() + 1),
@@ -83,15 +87,17 @@ app.get('/faculty/:facultyId',(req,res) => {
     if (day.length < 2) day = '0' + day;
 
     var date = [year, month, day].join('-');
+    var name = req.session.name;
 	facultycourses.findOne({facultyId : facultyId}).then((doc)=>{
 		//console.log(doc.courses);
-		res.render('faculty.hbs',{faculty: facultyId,coursesList : doc.courses, date: date});
+		res.render('faculty.hbs',{faculty: facultyId, name: name, coursesList : doc.courses, date: date});
 	},(err)=>{
 		console.log(err);
 	})
 });
 
 app.post('/takeAttendance',(req,res) => {
+	if(!req.session.userName) return res.redirect('/');
 	res.render('takeAttendance.hbs',{
 		faculty : req.body.facultyId,
 		subj : req.body.course,
