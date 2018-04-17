@@ -52,21 +52,6 @@ router.post('/dashboard', function(req, res, next) {
 			});
 			presentStudents.push(student.rollNo);
 		});
-
-		/*//get absent students
-		coursestudent.find({courseId: courseId}).then((doc) => {
-			var allStudents = doc.rollNos;
-			var absent = coursestudent.diff(presentStudents);
-			absent.forEach((student) => {
-				courseAttendance.push({
-					name: 'Khurana',
-					rollNo: student.rollNo,
-					status: 'Absent'
-				});
-			});
-			res.render('DashBoard2.hbs',{courseName : courseId,
-						dateOfAttendance : date, tempList : courseAttendance});
-		});*/
 		res.render('DashBoard2.hbs',{courseName : courseId,
 						dateOfAttendance : date, tempList : courseAttendance});
 	},(err)=>{
@@ -88,6 +73,7 @@ router.post('/dashboard3', function(req, res, next) {
 						}).distinct('courseId', function(err, coursesOnDate){
 
 		var size = coursesOnDate.length;
+		if(size == 0) return res.render('DashBoard4.hbs', {date: date});
 		coursesOnDate.forEach((course, j)=>{
 			coursestudent.findOne({courseId: course}).then((doc)=>{
 				var totalStudents = doc.rollNos.length;
@@ -100,7 +86,7 @@ router.post('/dashboard3', function(req, res, next) {
 
 					if(j==size-1){
 						//console.log(data, j, size);
-						res.render('DashBoard4.hbs', {data: data});			
+						res.render('DashBoard4.hbs', {data: data, date: date});			
 					}
 				});
 			});
